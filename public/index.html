@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Intern Hiring</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container mt-5">
+        <h1 class="mb-4">Intern Hiring Form</h1>
+
+        <div class="container mt-5">
+            <h2>Application Status</h2>
+            <div id="statusMessage"></div>
+        </div>
+
+        <form id="applicationForm">
+            <div class="mb-3">
+                <label for="name" class="form-label">Name:</label>
+                <input type="text" id="name" name="name" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label for="email" class="form-label">Email:</label>
+                <input type="email" id="email" name="email" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label for="mobile" class="form-label">Mobile:</label>
+                <input type="tel" id="mobile" name="mobile" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label for="notes" class="form-label">Notes:</label>
+                <textarea id="notes" name="notes" class="form-control"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit Application</button>
+        </form>
+    </div>
+
+    <div class="container mt-5">
+        <h2>About Rontohub</h2>
+        <p>Rontohub is dedicated to solving real-world problems through innovative web and mobile solutions.</p>
+        <p>Our mission is to empower users by creating websites and mobile apps that address their unique needs and
+            challenges.</p>
+        <p>We leverage a diverse technology stack including Node.js, Express, React.js, and databases like MySQL and
+            GraphDB. </p>
+        <p></p>Our solutions are hosted on reliable platforms such as Google cloud.</p>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap/dist/js/bootstrap.min.js"></script>
+
+    <!-- ... (existing content) ... -->
+
+    <script>
+        const applicationForm = document.getElementById('applicationForm');
+        const statusMessage = document.getElementById('statusMessage');
+
+        applicationForm.addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const mobile = document.getElementById('mobile').value;
+            const notes = document.getElementById('notes').value;
+
+            const applicationData = {
+                name: name,
+                email: email,
+                mobile: mobile,
+                notes: notes
+            };
+
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', '/post-intern', true);
+            xhr.setRequestHeader('Content-Type', 'application/json');
+
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    statusMessage.innerHTML = '<p class="text-success">Thanks for applying!</p>';
+                    // You can make additional API calls or perform other actions here
+                } else {
+                    statusMessage.innerHTML = '<p class="text-danger">Something went wrong. Please try again later.</p>';
+                }
+            };
+
+            xhr.onerror = function () {
+                statusMessage.innerHTML = '<p class="text-danger">An error occurred during the request.</p>';
+            };
+
+            const applicationDataJson = JSON.stringify(applicationData);
+            xhr.send(applicationDataJson);
+        });
+    </script>
+
+</body>
+
+</html>
