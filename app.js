@@ -20,6 +20,11 @@ app.post('/post-intern', (req, res) => {
     res.json({ message: 'Application submitted successfully' });
 });
 
+app.get('/api/applications', (req, res) => {
+    const applications = JSON.parse(fs.readFileSync(applicationsFilePath));
+    res.json(applications);
+});
+
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
 });

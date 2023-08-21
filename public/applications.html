@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Applications</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1>Applications</h1>
+        <div id="applicationsList"></div>
+    </div>
+
+    <script>
+        const applicationsList = document.getElementById('applicationsList');
+        
+        fetch('/api/applications') // Update the API endpoint if needed
+            .then(response => response.json())
+            .then(applications => {
+                let applicationsHTML = '';
+                applications.forEach(application => {
+                    applicationsHTML += `
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <h5 class="card-title">${application.name}</h5>
+                                <p class="card-text"><strong>Email:</strong> ${application.email}</p>
+                                <p class="card-text"><strong>Mobile:</strong> ${application.mobile}</p>
+                                <p class="card-text"><strong>Notes:</strong> ${application.notes}</p>
+                            </div>
+                        </div>
+                    `;
+                });
+                applicationsList.innerHTML = applicationsHTML;
+            })
+            .catch(error => {
+                applicationsList.innerHTML = '<p class="text-danger">An error occurred while fetching applications.</p>';
+            });
+    </script>
+</body>
+</html>
